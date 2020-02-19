@@ -69,11 +69,17 @@ constraint_budget = \
 
 # Solve ----------------------
 status = solver.Solve()
-decision_solution = np.array([[decision[i,t].solution_value() for t in range(0, term_months)] for i in range(0, num_loans)])
+decision_solution = \
+    np.array(
+        [[decision[i,t].solution_value() for t in range(0, term_months)]
+         for i in range(0, num_loans)])
 print(decision_solution)
 payments = np.array([sum(decision_solution[:,t]) for t in range(0, term_months)])
 print(payments)
-principal_solution = np.array([[principal[i,t].solution_value() for t in range(0, term_months)] for i in range(0, num_loans)])
+principal_solution = \
+ np.array(
+     [[principal[i,t].solution_value() for t in range(0, term_months)]
+      for i in range(0, num_loans)])
 print(principal_solution)
 print("Optimal payoff interest cost = " + 
     str(solver.Objective().Value() - sum(principal_initial))) # interest cost w/ optimal schedule
