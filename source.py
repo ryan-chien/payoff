@@ -6,7 +6,7 @@
 def opt_pay_schedule(
     term_months=80,
     principal_initial=[9871.59, 11040.71, 20879.70, 19940.74],   # starting principal at time 0
-    rate_yearly=[0.0531, 0.631, 0.0584, 0.0684],                 # yearly interest rate
+    rate_yearly=[0.0531, 0.0631, 0.0584, 0.0684],                 # yearly interest rate
     decision_min=[86.12, 70.54, 186.60, 204.72],      # minimum payment per term
     budget=1800):                                                # maximum possible payment:
     
