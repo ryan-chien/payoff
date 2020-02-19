@@ -68,11 +68,10 @@ constraint_budget = \
             sum(decision[0:, t]) <= budget) for t in range(0, term_months)])
 
 ## Remnant 
-remnant_tolerance = 0.000001
 constraint_remnant = \
         np.array(
         [[solver.Add(
-            remnant[i, t] >= (principal[i,t]/principal_initial[i]) - remnant_tolerance)
+            remnant[i, t] >= principal[i,t]/principal_initial[i])
             for t in range(0, term_months)]
             for i in range(0, num_loans)])
 
@@ -99,7 +98,12 @@ principal_solution = \
       for i in range(0, num_loans)])
 print(principal_solution)
 print("Optimal payoff interest cost = " + 
-    str(solver.Objective().Value() - sum(principal_initial))) # interest cost w/ optimal schedule
+    str(solver.Objective().Value() 
+        - sum(principal_initial)
+        - sum(
+            [remnant[i,t].solution_value()
+                for i in range(0, num_loans)
+                for t in range(0, term_months)]))) # interest cost w/ optimal schedule
 
 # Lp file ----------------------
 solver_debug_file = solver.ExportModelAsLpFormat(False)
