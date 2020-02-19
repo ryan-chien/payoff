@@ -124,4 +124,4 @@ def opt_pay_schedule(
     f.close() """
 
     # Return -------------------
-    return(interest_cost)
+    return([interest_cost, decision_solution])
