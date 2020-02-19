@@ -21,7 +21,7 @@ def opt_pay_schedule(
     num_loans = principal_initial.__len__()
 
     # Declare solver ---------------------------
-    solver = pywraplp.Solver("payoff", pywraplp.Solver.GLOP_LINEAR_PROGRAMMING)
+    solver = pywraplp.Solver("payoff", pywraplp.Solver.CBC_MIXED_INTEGER_PROGRAMMING)
 
     # Declare solver variables -----------------------------------
     ## Pyment is the decision variable
