@@ -16,24 +16,32 @@ budget = 1800   # maximum payment possible per time period
 # Declare solver ---------------------------
 solver = pywraplp.Solver("payoff", pywraplp.Solver.GLOP_LINEAR_PROGRAMMING)
 
-# Declare objective -----------------------------------
-objective = solver.Objective()
-# objective.SetMinimization
+# Declare solver variables -----------------------------------
+## Pyment is the decision variable
 decision = \
     np.array(
         [[solver.NumVar(0, solver.infinity(), 'd_i'+str(i)+'_t_'+str(t))
             for t in range(0, term_months)]
             for i in range(0, num_loans)])
 
+## Principal
 principal = \
     np.array(
         [[solver.NumVar(0, solver.infinity(), 'p_i'+str(i)+'_t_'+str(t))
             for t in range(0, term_months)]
             for i in range(0, num_loans)])
 
+## Binary for whether loan is principal remains(1) or not(0), i.e. is loan paid off
+remnant = \
+    np.array(
+        [[solver.BoolVar('b_i'+str(i)+'_t_'+str(t))
+            for t in range(0, term_months)]
+            for i in range(0, num_loans)])
+
+## Declare minimization objective
 solver.Minimize(
     sum(
-        sum(decision[i,:]) for i in range(0, num_loans)))
+        sum(decision[i,:]) + sum(remnant[i,:]) for i in range(0, num_loans)))
 
 # Set constraints ---------------------------------------
 ## Starting principal is nonzero
@@ -59,13 +67,22 @@ constraint_budget = \
         solver.Add(
             sum(decision[0:, t]) <= budget) for t in range(0, term_months)])
 
+## Remnant 
+remnant_tolerance = 0.000001
+constraint_remnant = \
+        np.array(
+        [[solver.Add(
+            remnant[i, t] >= (principal[i,t]/principal_initial[i]) - remnant_tolerance)
+            for t in range(0, term_months)]
+            for i in range(0, num_loans)])
+
 ## Montly payment must meet minimum
-""" constraint_min_payment = \
+constraint_min_payment = \
     np.array(
         [[solver.Add(
-            decision[i,t] >= decision_min[i])
+            decision[i,t] >= decision_min[i]*remnant[i,t])
             for t in range(0, term_months)]
-            for i in range(0, num_loans)]) """
+            for i in range(0, num_loans)])
 
 # Solve ----------------------
 status = solver.Solve()
