@@ -10,7 +10,11 @@ import pandas as pd
 interest_cost = []
 payment_schedule = []
 for budget_rate in range(1200, 2500, 100):
-    _solution = opt_pay_schedule(budget=budget_rate)
+    _solution = \
+        opt_pay_schedule(
+            budget=budget_rate,
+            rate_yearly=[0.0531, 0.10, 0.0584, 0.10],
+            principal_initial=[9871.59, 11040.71, 20879.70, 15600.74])
     interest_cost.append(_solution[0])
     payment_schedule.append(_solution[1])
     del(_solution)
