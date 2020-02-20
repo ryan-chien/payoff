@@ -19,15 +19,12 @@ Then, payoff returns the following:
 
 ## Dependencies
 Payoff is dependent on the following Python libraries:
-```
 1. (ortools) [https://developers.google.com/optimization/install]
 2. numpy
-```
+
 Nice to haves are:
-```
 3. pandas
 4. matplotlib
-```
 
 ## Example
 ```{python}
