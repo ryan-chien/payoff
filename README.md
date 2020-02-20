@@ -23,9 +23,17 @@ Payoff is dependent on:
 1. ortools
 2. numpy
 ```
+Nice to haves are:
+```
+3. pandas
+4. matplotlib
+```
 
 ## Example
 ```{python}
+import sys
+sys.path.append("C:/gitrepo/payoff/")
+from source import *
 >>> optimal_schedule = \
 ...     opt_pay_schedule(
 ...         term_months = 60,
@@ -72,3 +80,5 @@ import pandas as pd
 2  1413.88  1079.329202     0.0     0.0     0.0     0.0     0.0    0.000000  0.0  0.0  0.0  0.0
 3     0.00     0.000000     0.0     0.0     0.0     0.0     0.0    0.000000  0.0  0.0  0.0  0.0
 ```
+
+##
