@@ -104,4 +104,4 @@ import pandas as pd
 2  1413.88  1079.329202     0.0     0.0     0.0     0.0     0.0    0.000000  0.0  0.0  0.0  0.0
 3     0.00     0.000000     0.0     0.0     0.0     0.0     0.0    0.000000  0.0  0.0  0.0  0.0
 ```
-Note: the x-axis represents the time period (month), and the y-axis represents the loan index. Each cell-value represents the optimal payment amount.
+Note: the matrix columns represents the time period (month), and the rows represents the loan index. Each cell-value represents the optimal payment amount.
