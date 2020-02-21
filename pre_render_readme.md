@@ -81,5 +81,18 @@ import pandas as pd
 2  1413.88  1079.329202     0.0     0.0     0.0     0.0     0.0    0.000000  0.0  0.0  0.0  0.0
 3     0.00     0.000000     0.0     0.0     0.0     0.0     0.0    0.000000  0.0  0.0  0.0  0.0
 ```
+Note: the x-axis represents the time period (month), and the y-axis represents the loan index. Each cell-value represents the optimal payment amount.
 
-##
+## Formulation
+$$
+\[min\sum_{i=0}^{N}\sum_{t=0}^{Z}D_i,_t + M_i,_t\]
+\[P_i,_0 = P^*\]
+\[P_i,_Z=0 \medskip \forall \medskip i\]
+\[P_i,_t = (1+\frac{1}{12}R_i)P_i,_{t-1} - D_i,_{t-1} \medskip \forall \medskip i,t\]
+\[\sum_{i=0}^{N}D_i,_t \medskip \leq B \medskip \forall t\]
+\[M_i,_t \geq \frac{P_i,_t}{P_i,_0} \medskip \forall \medskip i,t\]
+\[D_i,_t \geq F_iM_i,_t \medskip \forall \medskip i,t\]
+$$
+
+## Test
+![min\sum_{i=0}^{N}\sum_{t=0}^{Z}D_i,_t + M_i,_t](https://render.githubusercontent.com/render/math?math=min%5Csum_%7Bi%3D0%7D%5E%7BN%7D%5Csum_%7Bt%3D0%7D%5E%7BZ%7DD_i%2C_t%20%2B%20M_i%2C_t)
