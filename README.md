@@ -1,7 +1,7 @@
 # Payoff: Optimal Loan Payoff Calculator
 
 ## Background
-Payoff is a mixed integer linear program (MILP) that minimizes the total interest cost of a loan by optimizing the payoff schedule. In other words, payoff answers, "How much should I pay each loan each month, given a budget and minimum payments?
+Payoff is a mixed integer linear program (MILP) that minimizes the total interest cost of a loan by optimizing the payoff schedule. In other words, ***payoff answers, "How much should I pay each loan each month, given a budget and minimum payments?***
 
 First, payoff takes the following as inputs:
 ```
