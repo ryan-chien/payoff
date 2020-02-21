@@ -85,10 +85,18 @@ Note: the x-axis represents the time period (month), and the y-axis represents t
 
 ## Formulation
 ![min\sum_{i=0}^{N}\sum_{t=0}^{Z}D_i,_t + M_i,_t](https://render.githubusercontent.com/render/math?math=min%5Csum_%7Bi%3D0%7D%5E%7BN%7D%5Csum_%7Bt%3D0%7D%5E%7BZ%7DD_i%2C_t%20%2B%20M_i%2C_t)
+
 ![P_i,_0 = P^*](https://render.githubusercontent.com/render/math?math=P_i%2C_0%20%3D%20P%5E*)
+
 ![P_i,_Z=0 \forall i](https://render.githubusercontent.com/render/math?math=P_i%2C_Z%3D0%20%5Cforall%20i)
-![P_i,_t = (1+\frac{1}{12}R_i)P_i,_{t-1} - D_i,_{t-1}\forall i,t](https://render.githubusercontent.com/render/math?math=P_i%2C_t%20%3D%20(1%2B%5Cfrac%7B1%7D%7B12%7DR_i)P_i%2C_%7Bt-1%7D%20-%20D_i%2C_%7Bt-1%7D%5Cforall%20i%2Ct)
+
+![P_i,_t = (1+\frac{1}{12}R_i)P_i,_{t-1} - D_i,_{t-1}\forall i,t](https://render.githubusercontent.com/render/math?math=P_i%2C_t%20%3D%20(1%2B%5Cfrac%7B1%7D%7B12%7DR_i)
+P_i%2C_%7Bt-1%7D%20-%20D_i%2C_%7Bt-1%7D%5Cforall%20i%2Ct)
+
 ![\sum_{i=0}^{N}D_i,_t \leq B \forall t](https://render.githubusercontent.com/render/math?math=%5Csum_%7Bi%3D0%7D%5E%7BN%7DD_i%2C_t%20%5Cleq%20B%20%5Cforall%20t)
+
 ![M_i,_t \geq \frac{P_i,_t}{P_i,_0} \forall i,t](https://render.githubusercontent.com/render/math?math=M_i%2C_t%20%5Cgeq%20%5Cfrac%7BP_i%2C_t%7D%7BP_i%2C_0%7D%20%5Cforall%20i%2Ct)
+
 ![D_i,_t \geq F_iM_i,_t \forall i,t](https://render.githubusercontent.com/render/math?math=D_i%2C_t%20%5Cgeq%20F_iM_i%2C_t%20%5Cforall%20i%2Ct)
+
 Where D is the payment decision variable, M is a binary 'remnant' variable which is zero if the loan is paid off, P is the principal, R is the yearly interest, B is the budget (i.e. maximum monthly payment), and F is the minimum monthly payment.
