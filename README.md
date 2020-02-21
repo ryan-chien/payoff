@@ -1,7 +1,7 @@
 # Payoff: Optimal Loan Payoff Calculator
 
 ## Background
-Payoff is a mixed integer linear program that minimizes the total interest cost of a loan by optimizing the payoff schedule. In other words, payoff answers, "How much should I pay each loan each month, given a budget and minimum payments?
+Payoff is a mixed integer linear program (MILP) that minimizes the total interest cost of a loan by optimizing the payoff schedule. In other words, payoff answers, "How much should I pay each loan each month, given a budget and minimum payments?
 
 First, payoff takes the following as inputs:
 ```
@@ -16,6 +16,29 @@ Then, payoff returns the following:
 1. The total interest cost given the optimal payment schedule (float),
 2. The payment schedule (NxT array where T is the homogenous term length)
 ```
+
+## Mathematical Formulation
+The following system of equations defines the MILP.
+
+Objective:
+
+![min\sum_{i=0}^{N}\sum_{t=0}^{Z}D_i,_t + M_i,_t](https://render.githubusercontent.com/render/math?math=min%5Csum_%7Bi%3D0%7D%5E%7BN%7D%5Csum_%7Bt%3D0%7D%5E%7BZ%7DD_i%2C_t%20%2B%20M_i%2C_t)
+
+Subject To:
+
+(1)   ![P_i,_0 = P^*](https://render.githubusercontent.com/render/math?math=P_i%2C_0%20%3D%20P%5E*)
+
+(2)   ![P_i,_Z=0 \forall i](https://render.githubusercontent.com/render/math?math=P_i%2C_Z%3D0%20%5Cforall%20i)
+
+(3)   ![P_i,_t = (1+\frac{1}{12}R_i)P_i,_{t-1} - D_i,_{t-1}\forall i,t](https://render.githubusercontent.com/render/math?math=P_i%2C_t%20%3D%20(1%2B%5Cfrac%7B1%7D%7B12%7DR_i)P_i%2C_%7Bt-1%7D%20-%20D_i%2C_%7Bt-1%7D%5Cforall%20i%2Ct)
+
+(4)   ![\sum_{i=0}^{N}D_i,_t \leq B \forall t](https://render.githubusercontent.com/render/math?math=%5Csum_%7Bi%3D0%7D%5E%7BN%7DD_i%2C_t%20%5Cleq%20B%20%5Cforall%20t)
+
+(5)   ![M_i,_t \geq \frac{P_i,_t}{P_i,_0} \forall i,t](https://render.githubusercontent.com/render/math?math=M_i%2C_t%20%5Cgeq%20%5Cfrac%7BP_i%2C_t%7D%7BP_i%2C_0%7D%20%5Cforall%20i%2Ct)
+
+(6)   ![D_i,_t \geq F_iM_i,_t \forall i,t](https://render.githubusercontent.com/render/math?math=D_i%2C_t%20%5Cgeq%20F_iM_i%2C_t%20%5Cforall%20i%2Ct)
+
+Where D is the payment decision variable, M is a binary 'remnant' variable which is zero if the loan is paid off, P is the principal, P* is the starting principal, R is the yearly interest, B is the budget (i.e. maximum monthly payment), and F is the minimum monthly payment. The loan index ranges from i=0 to N, and the time-period index ranges from t=0 to Z.
 
 ## Dependencies
 Payoff is dependent on the following Python libraries:
@@ -82,24 +105,3 @@ import pandas as pd
 3     0.00     0.000000     0.0     0.0     0.0     0.0     0.0    0.000000  0.0  0.0  0.0  0.0
 ```
 Note: the x-axis represents the time period (month), and the y-axis represents the loan index. Each cell-value represents the optimal payment amount.
-
-## Formulation
-Objective:
-
-![min\sum_{i=0}^{N}\sum_{t=0}^{Z}D_i,_t + M_i,_t](https://render.githubusercontent.com/render/math?math=min%5Csum_%7Bi%3D0%7D%5E%7BN%7D%5Csum_%7Bt%3D0%7D%5E%7BZ%7DD_i%2C_t%20%2B%20M_i%2C_t)
-
-Subject To:
-
-(1)   ![P_i,_0 = P^*](https://render.githubusercontent.com/render/math?math=P_i%2C_0%20%3D%20P%5E*)
-
-(2)   ![P_i,_Z=0 \forall i](https://render.githubusercontent.com/render/math?math=P_i%2C_Z%3D0%20%5Cforall%20i)
-
-(3)   ![P_i,_t = (1+\frac{1}{12}R_i)P_i,_{t-1} - D_i,_{t-1}\forall i,t](https://render.githubusercontent.com/render/math?math=P_i%2C_t%20%3D%20(1%2B%5Cfrac%7B1%7D%7B12%7DR_i)P_i%2C_%7Bt-1%7D%20-%20D_i%2C_%7Bt-1%7D%5Cforall%20i%2Ct)
-
-(4)   ![\sum_{i=0}^{N}D_i,_t \leq B \forall t](https://render.githubusercontent.com/render/math?math=%5Csum_%7Bi%3D0%7D%5E%7BN%7DD_i%2C_t%20%5Cleq%20B%20%5Cforall%20t)
-
-(5)   ![M_i,_t \geq \frac{P_i,_t}{P_i,_0} \forall i,t](https://render.githubusercontent.com/render/math?math=M_i%2C_t%20%5Cgeq%20%5Cfrac%7BP_i%2C_t%7D%7BP_i%2C_0%7D%20%5Cforall%20i%2Ct)
-
-(6)   ![D_i,_t \geq F_iM_i,_t \forall i,t](https://render.githubusercontent.com/render/math?math=D_i%2C_t%20%5Cgeq%20F_iM_i%2C_t%20%5Cforall%20i%2Ct)
-
-Where D is the payment decision variable, M is a binary 'remnant' variable which is zero if the loan is paid off, P is the principal, R is the yearly interest, B is the budget (i.e. maximum monthly payment), and F is the minimum monthly payment. The loan index ranges from i=0 to N, and the time-period index ranges from t=0 to Z.
