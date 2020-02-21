@@ -38,7 +38,7 @@ Subject To:
 
 (6)   ![D_i,_t \geq F_iM_i,_t \forall i,t](https://render.githubusercontent.com/render/math?math=D_i%2C_t%20%5Cgeq%20F_iM_i%2C_t%20%5Cforall%20i%2Ct)
 
-Where D is the payment decision variable, M is a binary 'remnant' variable which is zero if the loan is paid off, P is the principal, P* is the starting principal, R is the yearly interest, B is the budget (i.e. maximum monthly payment), and F is the minimum monthly payment. The loan index ranges from i=0 to N, and the time-period index ranges from t=0 to Z.
+Where D is the payment decision variable, M is a binary 'remnant' variable which is zero if the loan is paid off, P is the principal, P* is the starting principal, R is the yearly interest rate, B is the budget (i.e. maximum monthly payment), and F is the minimum monthly payment. The loan index ranges from i=0 to N, and the time-period index ranges from t=0 to Z.
 
 ## Dependencies
 Payoff is dependent on the following Python libraries:
