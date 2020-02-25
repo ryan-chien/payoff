@@ -68,10 +68,6 @@ from source import *
 Optimal payoff interest cost = 6055.7417295947525
 ```
 
-```{python}
->>> print(optimal_schedule[0])   # print total interest cost given optimal schedule
-7501.183628129096
-```
 
 ```{python}
 import pandas as pd
