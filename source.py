@@ -4,11 +4,12 @@
 
 # Main --------------------------
 def opt_pay_schedule(
-    term_months=[80, 120, 100, 100],
+    term_months=[80, 120, 100, 100],                             # loan term in months
     principal_initial=[9871.59, 11040.71, 20879.70, 19940.74],   # starting principal at time 0
     rate_yearly=[0.0531, 0.0631, 0.0584, 0.0684],                # yearly interest rate
     decision_min=[86.12, 70.54, 186.60, 204.72],                 # minimum payment per term
-    budget=1800):                                                # maximum possible payment:
+    budget=1800,                                                 # maximum possible payment
+    verbose=[True, 50]):   # If verbose is true, query solver for intermediate results for given time interval                                             
     
     # Import libraries -------------------
     import sys
@@ -26,6 +27,11 @@ def opt_pay_schedule(
         solver = pywraplp.Solver("payoff", pywraplp.Solver.CPLEX_MIXED_INTEGER_PROGRAMMING)
     except:
         solver = pywraplp.Solver("payoff", pywraplp.Solver.CBC_MIXED_INTEGER_PROGRAMMING)
+
+    # If verbose is true, query solver for intermediate results ------------
+    if verbose[0]==True:
+        time_limit_milliseconds = verbose[1]
+        solver.set_time_limit(time_limit_milliseconds)
 
     # Declare solver variables -----------------------------------
     ## Pyment is the decision variable
@@ -95,7 +101,26 @@ def opt_pay_schedule(
                 for i in range(0, num_loans)])
 
     # Solve ----------------------
-    status = solver.Solve()
+    if verbose[0]==True:
+        status = solver.NOT_SOLVED   # set status flag to not solved
+        i = 1   # set index flag
+        while status != solver.OPTIMAL:
+            status = solver.Solve()   # query solver status
+            wall_time = solver.wall_time()  # query number of simplex iterations
+            if status in (solver.FEASIBLE, solver.OPTIMAL):
+                interest_cost = \
+                    solver.Objective().Value() - sum(principal_initial) - sum(
+                        [remnant[i,t].solution_value()
+                            for i in range(0, num_loans)
+                            for t in range(0, term_months[i])])    # interest cost w/ optimal schedule
+            else:
+                interest_cost = "__not_solved__"
+            print("Optimal solution is: $" + str(interest_cost) 
+                + " after " + str(wall_time/1000) + " milliseconds.")
+            i = i+1   # update flag
+            solver.set_time_limit(time_limit_milliseconds * i)   # update time limit
+    else:
+        status = solver.Solve()
 
     decision_solution = \
         np.array(
